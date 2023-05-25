@@ -19,7 +19,9 @@ export class CadastroPessoaComponent implements OnInit {
   }
 
   salvar(): void {  
-    this._httpService.salvarPessoa(this.formulario.getRawValue())
+    
+
+    this._httpService.salvarPessoa(this.formService.entidade).subscribe((res) => console.log(res))
     
   }
 }

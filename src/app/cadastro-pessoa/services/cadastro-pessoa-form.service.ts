@@ -9,7 +9,7 @@ export class CadastroPessoaFormService {
     constructor(private _fb: FormBuilder) { }
 
     get entidade(): Pessoa{
-        return (this.form.getRawValue() as Pessoa)
+        return this.form.getRawValue();
     }
 
     construirFormulario(): void{

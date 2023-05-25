@@ -1,5 +1,5 @@
 export class Pessoa {
-    id?: number;
+    id?: number | null;
     nome: string;
     imovelId: number
 }

@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialCoreModule } from '../shared/modulos/material-core.module';
 import { CadastroImoveisFormService } from './services/cadastro-imoveis-form.service';
+import { InputCepModule } from '../shared/components/input-cep/input-cep.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { CadastroImoveisFormService } from './services/cadastro-imoveis-form.ser
     ReactiveFormsModule,
     HttpClientModule,
     MaterialCoreModule,
+    InputCepModule,
     CadastroImoveisRoutingModule
   ],providers: [CadastroImoveisFormService]
 })

@@ -1,6 +1,8 @@
 <div>
   <form [formGroup]="formulario" (ngSubmit)="salvar()" class="form">   
-
+    <div class="container-salvar">
+      <button mat-raised-button color="primary" type="submit">Salvar</button>
+    </div>
     <mat-card>
       <mat-card-header>
         <mat-card-title>Dados do Imóvel</mat-card-title>
@@ -49,6 +51,8 @@
               O valor é obrigatório.
             </mat-error>
           </mat-form-field>
+
+          <app-input-cep></app-input-cep>
         </div>
       </mat-card-content>
     </mat-card>
@@ -120,8 +124,6 @@
       </mat-card-content>
     </mat-card>
 
-    <div class="container-salvar">
-      <button mat-raised-button color="primary" type="submit">Salvar</button>
-    </div>
+    
   </form>
 </div>

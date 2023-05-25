@@ -1,1 +1,109 @@
-<p>cadastro-imoveis works!</p>
+<div class="container">
+    <form [formGroup]="formulario" (ngSubmit)="salvar()" class="form">
+      <h2 class="form-title">Cadastro de Imóvel</h2>
+  
+      <div class="form-row">
+        <div class="form-column">
+          <mat-card class="card">
+            <mat-card-header>
+              <mat-card-title>Dados do Imóvel</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="nome" required>
+                <mat-error *ngIf="formulario.get('nome')?.invalid && formulario.get('nome')?.touched">
+                  O nome é obrigatório.
+                </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="tipo" required>
+                  <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formulario.get('tipo')?.invalid && formulario.get('tipo')?.touched">
+                  Selecione um tipo válido.
+                </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Valor</mat-label>
+                <input matInput formControlName="valor" required>
+                <mat-error *ngIf="formulario.get('valor')?.invalid && formulario.get('valor')?.touched">
+                  O valor é obrigatório.
+                </mat-error>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </div>
+  
+        <div class="form-column">
+          <mat-card class="card">
+            <mat-card-header>
+              <mat-card-title>Detalhes do Imóvel</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="outline">
+                <mat-label>Condomínio</mat-label>
+                <input matInput formControlName="condominio">
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Quartos</mat-label>
+                <input matInput formControlName="quartos" type="number">
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Banheiros</mat-label>
+                <input matInput formControlName="banheiros" type="number">
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </div>
+  
+        <div class="form-column">
+          <mat-card class="card">
+            <mat-card-header>
+              <mat-card-title>Outras Informações</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="outline">
+                <mat-label>Área</mat-label>
+                <input matInput formControlName="area" type="number">
+              </mat-form-field>
+  
+              <div class="checkbox-group">
+                <mat-checkbox formControlName="venda">Venda</mat-checkbox>
+              </div>
+  
+              <div class="checkbox-group">
+                <mat-checkbox formControlName="aluguel">Aluguel</mat-checkbox>
+              </div>
+  
+              <div class="checkbox-group">
+                <mat-checkbox formControlName="mobiliado">Mobiliado</mat-checkbox>
+              </div>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Data de Anúncio</mat-label>
+                <input matInput formControlName="dataAnuncio" [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Proprietário ID</mat-label>
+                <input matInput formControlName="proprietarioId" type="number">
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+  
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+      </div>
+    </form>
+  </div>
+  

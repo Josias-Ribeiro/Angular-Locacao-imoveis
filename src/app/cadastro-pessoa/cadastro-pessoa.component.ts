@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CadastroPessoaFormService } from './services/cadastro-pessoa-form.service';
 import { FormGroup } from '@angular/forms';
+import { CadastroPessoaHttpService } from './services/cadastro-pessoa-http.service';
 
 @Component({
   selector: 'app-cadastro-pessoa',
@@ -10,14 +11,15 @@ import { FormGroup } from '@angular/forms';
 export class CadastroPessoaComponent implements OnInit {
   formulario: FormGroup;
 
-  constructor(public formService: CadastroPessoaFormService) {}
+  constructor(public formService: CadastroPessoaFormService, private _httpService: CadastroPessoaHttpService) {}
 
   ngOnInit(): void {
     this.formService.construirFormulario();
     this.formulario = this.formService.form;
   }
 
-  salvar(): void{
-    console.log(this.formService.entidade)
+  salvar(): void {  
+    this._httpService.salvarPessoa(this.formulario.getRawValue())
+    
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Pessoa } from '../model/pessoa.model';
 
 @Injectable()
 export class CadastroPessoaFormService {
@@ -7,8 +8,8 @@ export class CadastroPessoaFormService {
 
     constructor(private _fb: FormBuilder) { }
 
-    get entidade(): FormGroup{
-        return this.form.getRawValue()
+    get entidade(): Pessoa{
+        return (this.form.getRawValue() as Pessoa)
     }
 
     construirFormulario(): void{

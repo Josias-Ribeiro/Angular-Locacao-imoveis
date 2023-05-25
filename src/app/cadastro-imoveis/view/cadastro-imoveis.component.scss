@@ -1,37 +1,26 @@
-.container {
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 1em;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 16px;
+}
+
+.container-form-field {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 85vh;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-width: 60vw;
-    width: 100%;
-  }
-  
-  .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  
-  .form-column {
-    flex: 1;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-  }
-  
-  .checkbox-group {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    padding: 16px;
-  }
+    gap: 12px;
+}
+
+.form-field {
+    width: 30vw;
+}
+
+.container-salvar {
+    text-align: center;
+}

@@ -1,1 +1,24 @@
-<p>cadastro-pessoa works!</p>
+<div class="container">
+    <div>
+        <h1>Cadastro de pessoas</h1>
+    </div>
+    
+  
+    <form [formGroup]="formulario" class="form">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Nome" formControlName="nome">
+        <mat-error *ngIf="formService.form.get('nome')?.hasError('required')">O campo nome é obrigatório</mat-error>
+
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="ID do Imóvel" formControlName="imovelId">
+        <mat-error *ngIf="formService.form.get('imovelId')?.hasError('imovelId')">O campo imóvelId é obrigatório</mat-error>
+      </mat-form-field>
+
+      <br>
+  
+      <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+    </form>
+  </div>
+  

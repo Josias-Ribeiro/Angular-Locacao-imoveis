@@ -7,7 +7,21 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CadastroImoveisHttpService {
+  private _rota = `http://localhost:5875/imovel`
+
   constructor(private _http: HttpClient) {}
+
+  listarImovel(id: number): Observable<any> {
+    return this._http.get(`${this._rota}/${id}`);
+  }
+
+  deletarImovel(id: number): Observable<any> {
+    return this._http.delete(`${this._rota}/${id}`);
+  }
+
+  editarImovel(imovel: CadastroImovelModel): Observable<any> {
+    return this._http.put('http://localhost:5875/imovel', imovel);
+  }
 
   salvarImovel(imovel: CadastroImovelModel): Observable<any> {
     return this._http.post('http://localhost:5875/imovel', imovel);

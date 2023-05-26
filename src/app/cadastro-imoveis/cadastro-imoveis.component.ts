@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CadastroImoveisFormService } from './services/cadastro-imoveis-form.service';
 import { CurrencyPipe } from '@angular/common';
 import { CadastroImoveisHttpService } from './services/cadastro-imoveis-http.service';
+import { CadastroImovelModel } from './model/cadastro-imovel.model';
 
 @Component({
   selector: 'app-cadastro-imoveis',
@@ -21,14 +22,43 @@ export class CadastroImoveisComponent implements OnInit {
     this.formulario = this._formService.formulario
   }
 
+  get entidade(): FormGroup {
+    return this.formulario
+  }
+
+  get endereco(): FormGroup{
+    return this.formulario.get('endereco') as FormGroup
+  }
+
   receberEndereco(endereco: any) {
     this.formulario.get('endereco')?.setValue(endereco)
   }
 
-  salvar(): void {    
-    const dados = this.formulario.getRawValue()   
+  listar(): void {
+    const dados = +this.formulario.get('id')?.value;
+  
+    this._httpService.listarImovel(dados).subscribe((res) => {
+      this.formulario.patchValue(res);
 
-    console.log(dados)
+      console.log(res)
+  
+      const endereco = res.endereco[0];
+      this.endereco.get('logradouro')?.setValue(endereco.rua);
+      this.endereco.get('cep')?.setValue(endereco.cep);
+      this.endereco.get('bairro')?.setValue(endereco.bairro);
+      this.endereco.get('localidade')?.setValue(endereco.cidade);
+      this.endereco.get('uf')?.setValue(endereco.cep);
+      this.endereco.get('numero')?.setValue(endereco.numero);
+    });
+  }
+  
+
+  editar(){}
+
+  excluir(){}
+
+  salvar(): void {    
+    const dados = this.formulario.getRawValue()      
 
     // this._httpService.salvarImovel(dados).subscribe((res) => console.log(res))
   }

@@ -9,6 +9,7 @@ export class CadastroImoveisFormService {
 
     construirFormulario(): void {
         this.formulario = this._formBuilder.group({
+            id: null,
             nome: [null, Validators.required],
             tipo: [null, Validators.required],
             valor: [null, Validators.required],

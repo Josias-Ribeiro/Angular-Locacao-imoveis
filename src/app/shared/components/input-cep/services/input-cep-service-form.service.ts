@@ -9,6 +9,7 @@ export class InputCepFormService {
 
     construirFormulario(): void {
         this.form = this._formBuilder.group({
+          id: null,
           logradouro: {value: '', disabled: true },
           numero: ['', Validators.required],
           bairro: {value: '', disabled: true },

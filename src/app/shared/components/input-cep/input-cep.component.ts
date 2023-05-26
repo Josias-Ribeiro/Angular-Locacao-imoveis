@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InputCepServiceHttpService } from './services/input-cep-service-http.service';
 import { InputCepFormService } from './services/input-cep-service-form.service';
@@ -9,7 +9,8 @@ import { InputCepFormService } from './services/input-cep-service-form.service';
   styleUrls: ['./view/input-cep.component.scss'],
 })
 export class InputCepComponent implements OnInit {
-  cepForm: FormGroup;
+  @Input() formulario: FormGroup;
+  @Output() endereco: EventEmitter<any> = new EventEmitter<any>()
 
   constructor(
     private _formService: InputCepFormService,
@@ -25,7 +26,7 @@ export class InputCepComponent implements OnInit {
 
   ngOnInit() {
     this._formService.construirFormulario();
-    this.cepForm = this._formService.form;
+    this.formulario = this._formService.form;
   }
 
   pesquisarCEP():void {
@@ -36,7 +37,9 @@ export class InputCepComponent implements OnInit {
     this._httpService.carregarEndereco(dados)
     
     .subscribe((res) => {
-      this.cepForm.patchValue(res)
+      this.formulario.patchValue(res)
+      res.id = null
+      this.endereco.emit(res);
     },
     () => {alert('CEP não encontrado!')})
   }

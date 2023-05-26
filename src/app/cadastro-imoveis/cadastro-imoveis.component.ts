@@ -10,6 +10,7 @@ import { CadastroImoveisHttpService } from './services/cadastro-imoveis-http.ser
   styleUrls: ['./view/cadastro-imoveis.component.scss'],  
 })
 export class CadastroImoveisComponent implements OnInit {
+  
   formulario: FormGroup;
   tipos: string[] = ['Apartamento', 'Casa'];
 
@@ -20,9 +21,15 @@ export class CadastroImoveisComponent implements OnInit {
     this.formulario = this._formService.formulario
   }
 
-  salvar(): void {
-    const dados = this.formulario.getRawValue()
+  receberEndereco(endereco: any) {
+    this.formulario.get('endereco')?.setValue(endereco)
+  }
 
-    this._httpService.salvarImovel(dados).subscribe((res) => console.log(res))
+  salvar(): void {    
+    const dados = this.formulario.getRawValue()   
+
+    console.log(dados)
+
+    // this._httpService.salvarImovel(dados).subscribe((res) => console.log(res))
   }
 }

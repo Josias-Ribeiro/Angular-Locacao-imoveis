@@ -24,7 +24,7 @@
 
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Tipo</mat-label>
-            <mat-select formControlName="tipo" required>
+            <mat-select formControlName="tipo" required multiple>
               <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{
                 tipo
               }}</mat-option>
@@ -54,7 +54,7 @@
 
           
         </div>
-        <app-input-cep></app-input-cep>
+        <app-input-cep  (endereco)="receberEndereco($event)"></app-input-cep>
       </mat-card-content>
     </mat-card>
 

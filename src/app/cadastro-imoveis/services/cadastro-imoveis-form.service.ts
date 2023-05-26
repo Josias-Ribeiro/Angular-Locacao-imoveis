@@ -13,6 +13,7 @@ export class CadastroImoveisFormService {
             nome: [null, Validators.required],
             tipo: [null, Validators.required],
             valor: [null, Validators.required],
+            endereco: [null],
             condominio: [null],
             quartos: [null],
             banheiros: [null],

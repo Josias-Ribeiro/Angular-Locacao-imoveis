@@ -1,8 +1,8 @@
-<form [formGroup]="cepForm" class="form">
+<form [formGroup]="formulario" class="form">
   <mat-form-field appearance="outline">
     <mat-label>CEP</mat-label>
     <input matInput formControlName="cep" required (input)="pesquisarCEP()"  maxlength="9"/>
-    <mat-error *ngIf="cepForm.get('cep')?.hasError('required')">
+    <mat-error *ngIf="formulario.get('cep')?.hasError('required')">
       Campo obrigatório
     </mat-error>
   </mat-form-field>
@@ -15,7 +15,7 @@
   <mat-form-field appearance="outline">
     <mat-label>Número</mat-label>
     <input matInput formControlName="numero" type="number" required />
-    <mat-error *ngIf="cepForm.get('numero')?.hasError('required')">
+    <mat-error *ngIf="formulario.get('numero')?.hasError('required')">
       Campo obrigatório
     </mat-error>
   </mat-form-field>

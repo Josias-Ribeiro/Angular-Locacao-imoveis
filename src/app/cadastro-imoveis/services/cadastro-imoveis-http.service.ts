@@ -8,8 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class CadastroImoveisHttpService {
   private _rota = `http://localhost:5875/imovel`
+  private _rotaCEP = `http://viacep.com.br/ws`
 
   constructor(private _http: HttpClient) {}
+
+  carregarEndereco(cep: number): Observable<any>{
+    return this._http.get(`${this._rotaCEP}/${cep}/json`)
+  }
 
   listarImovel(id: number): Observable<any> {
     return this._http.get(`${this._rota}/${id}`);
@@ -27,3 +32,8 @@ export class CadastroImoveisHttpService {
     return this._http.post('http://localhost:5875/imovel', imovel);
   }
 }
+
+
+
+
+

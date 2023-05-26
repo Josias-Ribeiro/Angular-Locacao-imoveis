@@ -81,6 +81,10 @@
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>CEP</mat-label>
                 <input matInput formControlName="cep" required />
+                <button matSuffix mat-icon-button (click)="pesquisarCEP()">
+                  <mat-icon matSuffix >search</mat-icon>
+                </button>
+                
                 <mat-error>O CEP é obrigatório</mat-error>
               </mat-form-field>
 
@@ -102,7 +106,7 @@
               
             </div>
           
-            <div >
+            <div>
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>UF</mat-label>
                 <input matInput formControlName="uf"  />

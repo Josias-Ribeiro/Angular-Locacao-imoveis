@@ -22,6 +22,10 @@ export class CadastroImoveisComponent implements OnInit {
     this.formulario = this._formService.formulario
   }
 
+  get cepValido(): boolean {
+    return this.endereco.get('cep')?.value.length === 8
+  }
+
   get entidade(): FormGroup {
     return this.formulario
   }
@@ -47,7 +51,7 @@ export class CadastroImoveisComponent implements OnInit {
       this.endereco.get('cep')?.setValue(endereco.cep);
       this.endereco.get('bairro')?.setValue(endereco.bairro);
       this.endereco.get('localidade')?.setValue(endereco.cidade);
-      this.endereco.get('uf')?.setValue(endereco.cep);
+      this.endereco.get('uf')?.setValue(endereco.uf);
       this.endereco.get('numero')?.setValue(endereco.numero);
     });
   }
@@ -61,5 +65,21 @@ export class CadastroImoveisComponent implements OnInit {
     const dados = this.formulario.getRawValue()      
 
     // this._httpService.salvarImovel(dados).subscribe((res) => console.log(res))
+  }
+
+  pesquisarCEP():void {
+    if (!this.cepValido) return
+
+    const dados = this.endereco.get('cep')?.value
+
+    this._httpService.carregarEndereco(dados)
+    
+    .subscribe((res) => {
+      this.endereco.get('logradouro')?.setValue(res.logradouro);      
+      this.endereco.get('bairro')?.setValue(res.bairro);
+      this.endereco.get('localidade')?.setValue(res.localidade);
+      this.endereco.get('uf')?.setValue(res.uf);    
+    },
+    () => {alert('CEP não encontrado!')})
   }
 }

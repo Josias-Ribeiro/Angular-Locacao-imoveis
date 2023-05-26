@@ -1,41 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { InputCepServiceHttpService } from './services/input-cep-service-http.service';
+import { InputCepFormService } from './services/input-cep-service-form.service';
 
 @Component({
   selector: 'app-input-cep',
   templateUrl: './view/input-cep.component.html',
-  styleUrls: ['./view/input-cep.component.scss']
+  styleUrls: ['./view/input-cep.component.scss'],
 })
 export class InputCepComponent implements OnInit {
-
   cepForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private _formService: InputCepFormService,
+    private _httpService: InputCepServiceHttpService
+  ) {}
+
+  // GETTERS E SETTERS
+  get cepValido(): boolean {
+    return this._formService.form.get('cep')?.value.length === 8
+  }
+
+  // FIM GETTERS E SETTERS
 
   ngOnInit() {
-    this.initializeForm();
+    this._formService.construirFormulario();
+    this.cepForm = this._formService.form;
   }
 
-  initializeForm() {
-    this.cepForm = this.formBuilder.group({
-      rua: ['', Validators.required],
-      numero: ['', Validators.required],
-      bairro: ['', Validators.required],
-      cidade: ['', Validators.required],
-      uf: ['', Validators.required],
-      cep: ['', Validators.required]
-    });
+  pesquisarCEP():void {
+    if (!this.cepValido) return
 
-    // Preencha os campos com os valores fornecidos
-    this.cepForm.patchValue({
-      rua: 'Rua exemplo imóvel 1',
-      numero: 100,
-      bairro: 'Exemplo de bairro',
-      cidade: 'Belo Horizonte',
-      uf: 'MG',
-      cep: '3333-333'
-    });
+    const dados = this._formService.form.get('cep')?.value
+
+    this._httpService.carregarEndereco(dados)
+    
+    .subscribe((res) => {
+      this.cepForm.patchValue(res)
+    },
+    () => {alert('CEP não encontrado!')})
   }
-
-
 }

@@ -1,32 +1,37 @@
-<mat-form-field appearance="outline">
+<form [formGroup]="cepForm" class="form">
+  <mat-form-field appearance="outline">
     <mat-label>CEP</mat-label>
-    <input matInput formControlName="cep" required>
+    <input matInput formControlName="cep" required (input)="pesquisarCEP()"  maxlength="9"/>
+    <mat-error *ngIf="cepForm.get('cep')?.hasError('required')">
+      Campo obrigatório
+    </mat-error>
   </mat-form-field>
 
-<mat-form-field appearance="outline">
+  <mat-form-field appearance="outline">
     <mat-label>Rua</mat-label>
-    <input matInput formControlName="rua" required>
+    <input matInput formControlName="logradouro" required [disabled]="true" />
   </mat-form-field>
-  
+
   <mat-form-field appearance="outline">
     <mat-label>Número</mat-label>
-    <input matInput formControlName="numero" type="number" required>
+    <input matInput formControlName="numero" type="number" required />
+    <mat-error *ngIf="cepForm.get('numero')?.hasError('required')">
+      Campo obrigatório
+    </mat-error>
   </mat-form-field>
-  
+
   <mat-form-field appearance="outline">
     <mat-label>Bairro</mat-label>
-    <input matInput formControlName="bairro" required>
+    <input matInput formControlName="bairro" required [disabled]="true" />
   </mat-form-field>
-  
+
   <mat-form-field appearance="outline">
     <mat-label>Cidade</mat-label>
-    <input matInput formControlName="cidade" required>
+    <input matInput formControlName="localidade" required [disabled]="true" />
   </mat-form-field>
-  
+
   <mat-form-field appearance="outline">
     <mat-label>UF</mat-label>
-    <input matInput formControlName="uf" required>
+    <input matInput formControlName="uf" required [disabled]="true"/>
   </mat-form-field>
-  
-  
-  
+</form>

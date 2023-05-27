@@ -31,6 +31,9 @@ export class CadastroImoveisFormService {
       aluguel: [false],
       dataAnuncio: [null],
       proprietarioId: [null],
-    });    
+    });  
+    
+    this.formulario.disable()
+    this.formulario.get('id')?.enable()
   }  
 }

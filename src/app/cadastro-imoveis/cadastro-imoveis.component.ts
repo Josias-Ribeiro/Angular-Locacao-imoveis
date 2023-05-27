@@ -31,8 +31,6 @@ export class CadastroImoveisComponent implements OnInit {
     this.formulario = this._formService.formulario;
     this._carregarDadosPessoas();
     this.status = Status.NovaPesquisa;
-
-    console.log(this.status)
   }
 
   private _carregarDadosPessoas() {
@@ -53,6 +51,10 @@ export class CadastroImoveisComponent implements OnInit {
     return this.formulario.get('endereco') as FormGroup;
   }
 
+  get inserindoOuEditando(): boolean {
+    return this.status === Status.Inserindo || this.status === Status.Editando;
+  }
+
   receberEndereco(endereco: any) {
     this.formulario.get('endereco')?.setValue(endereco);
   }
@@ -67,6 +69,7 @@ export class CadastroImoveisComponent implements OnInit {
     this.status = Status.Inserindo;
     this.formulario.enable();
     this.formulario.reset();
+    this.formulario.markAllAsTouched();
   }
 
   listar(): void {
@@ -93,6 +96,9 @@ export class CadastroImoveisComponent implements OnInit {
       this.endereco.get('numero')?.setValue(endereco.numero);
 
       this.endereco.disable();
+    },
+    () => {
+    this._modoPesquisa('Imóvel não encontrado!')
     });
   }
 
@@ -103,25 +109,38 @@ export class CadastroImoveisComponent implements OnInit {
 
   excluir(): void {
     const dados = +this.formulario.get('id')?.value;
-    this._httpService.deletarImovel(dados)
-    .pipe(finalize(() => { 
-      this.formulario.reset()
-      this.status = Status.NovaPesquisa
-      alert('Imóvel removido com sucesso!')
-    }))
-    .subscribe(() => {})
+    this._httpService
+      .deletarImovel(dados)
+      .pipe(
+        finalize(() => {                    
+         this._modoPesquisa('Imóvel removido com sucesso!')
+        })
+      )
+      .subscribe(() => {});
   }
 
   salvar(): void {
     const dados = this.formulario.getRawValue();
 
-    this._httpService.salvarImovel(dados)
-    .pipe(finalize(() => {
-      alert('Imóvel salvo com sucesso!')
-      this.formulario.disable()
-    }))
-    .subscribe(() => {})
-
+    if (this.status === 'Inserindo') {
+      this._httpService
+        .salvarImovel(dados)
+        .pipe(
+          finalize(() => {                
+            this._modoPesquisa('Imóvel salvo com sucesso!')
+          })
+        )
+        .subscribe(() => {});
+    } else {
+      this._httpService
+        .editarImovel(dados)
+        .pipe(
+          finalize(() => {            
+            this._modoPesquisa('Imóvel editado com sucesso!')
+          })
+        )
+        .subscribe(() => {});
+    }
   }
 
   pesquisarCEP(): void {
@@ -131,7 +150,6 @@ export class CadastroImoveisComponent implements OnInit {
 
     this._httpService
       .carregarEndereco(dados)
-
       .subscribe(
         (res) => {
           this.endereco.get('logradouro')?.setValue(res.logradouro);
@@ -143,5 +161,12 @@ export class CadastroImoveisComponent implements OnInit {
           alert('CEP não encontrado!');
         }
       );
+  }
+
+  private _modoPesquisa(mensagem: string): void{
+    alert(mensagem)
+    this.status = Status.NovaPesquisa;
+    this.formulario.reset();
+    this.formulario.enable();
   }
 }

@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="formulario" (ngSubmit)="salvar()" class="form">
+  <form [formGroup]="formulario"  class="form">
     
     <div class="container-salvar">
       <button mat-raised-button color="primary" (click)="listar()" *ngIf="status === 'Nova Pesquisa'">
@@ -8,7 +8,7 @@
       <button mat-raised-button color="primary" (click)="criar()" *ngIf="status === 'Nova Pesquisa'">
         Criar
       </button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="formulario.invalid" *ngIf="status === 'Inserindo' || status === 'Editando'">
+      <button mat-raised-button color="primary" (click)="salvar()" [disabled]="formulario.invalid" *ngIf="status === 'Inserindo' || status === 'Editando'">
         Salvar
       </button>
       <button mat-raised-button color="accent" (click)="editar()" *ngIf="formulario.get('id')?.value && status === 'Dados carregados'">
@@ -32,14 +32,14 @@
       <mat-card-content>
         <div class="container-form-field">
           <div>
-            <mat-form-field appearance="outline" class="form-field">
+            <mat-form-field *ngIf="status !== 'Inserindo' " appearance="outline" class="form-field">
               <mat-label>ID</mat-label>
-              <input matInput formControlName="id" required />
+              <input matInput formControlName="id" />
             </mat-form-field>
   
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Nome</mat-label>
-              <input matInput formControlName="nome" required />
+              <input matInput formControlName="nome" [required]="inserindoOuEditando" />
               <mat-error
                 *ngIf="
                   formulario.get('nome')?.invalid &&
@@ -52,7 +52,7 @@
   
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Tipo</mat-label>
-              <mat-select formControlName="tipo" required multiple>
+              <mat-select formControlName="tipo" [required]="inserindoOuEditando" multiple>
                 <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{
                   tipo
                 }}</mat-option>
@@ -69,7 +69,7 @@
   
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Valor</mat-label>
-              <input matInput formControlName="valor" required mask="'R$ 9.99'" />
+              <input matInput formControlName="valor" [required]="inserindoOuEditando" mask="'R$ 9.99'" />
               <mat-error
                 *ngIf="
                   formulario.get('valor')?.invalid &&
@@ -86,7 +86,7 @@
             <div>
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>CEP</mat-label>
-                <input matInput formControlName="cep" required />
+                <input matInput formControlName="cep" [required]="inserindoOuEditando" />
                 <button *ngIf="status === 'Inserindo' || status === 'Editando' " matSuffix mat-icon-button (click)="pesquisarCEP()">
                   <mat-icon matSuffix >search</mat-icon>
                 </button>
@@ -120,7 +120,7 @@
 
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Número</mat-label>
-                <input matInput formControlName="numero" required />
+                <input matInput formControlName="numero" [required]="inserindoOuEditando" />
                 <mat-error>O número é obrigatório</mat-error>
               </mat-form-field>
           
@@ -140,17 +140,17 @@
         <div class="container-form-field">
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Condomínio</mat-label>
-            <input matInput formControlName="condominio" />
+            <input matInput formControlName="condominio" [required]="inserindoOuEditando" />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Quartos</mat-label>
-            <input matInput formControlName="quartos" type="number" />
+            <input matInput formControlName="quartos" type="number" [required]="inserindoOuEditando" />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Banheiros</mat-label>
-            <input matInput formControlName="banheiros" type="number" />
+            <input matInput formControlName="banheiros" type="number" [required]="inserindoOuEditando" />
           </mat-form-field>
         </div>
       </mat-card-content>
@@ -164,7 +164,7 @@
         <div class="container-form-field">
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Área</mat-label>
-            <input matInput formControlName="area" type="number" />
+            <input matInput formControlName="area" type="number" [required]="inserindoOuEditando" />
           </mat-form-field>
 
           <div class="checkbox-group">
@@ -181,6 +181,7 @@
               matInput
               formControlName="dataAnuncio"
               [matDatepicker]="picker"
+              [required]="inserindoOuEditando"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -191,7 +192,7 @@
 
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Proprietario</mat-label>
-            <mat-select formControlName="proprietarioId" >
+            <mat-select formControlName="proprietarioId" [required]="inserindoOuEditando" >
               <mat-option *ngFor="let proprietario of arrayPessoas" [value]="proprietario.id">
                 {{proprietario.nome }}
               </mat-option>

@@ -10,17 +10,17 @@ export class CadastroImoveisFormService {
   construirFormulario(): void {
     this.formulario = this._formBuilder.group({
       id: null,
-      nome: [null, Validators.required],
-      tipo: [null, Validators.required],
-      valor: [null, Validators.required],
+      nome: [null],
+      tipo: [null],
+      valor: [null],
       endereco: this._formBuilder.group({
         id: null,
         logradouro: { value: '', disabled: true },
-        numero: ['', Validators.required],
+        numero: [''],
         bairro: { value: '', disabled: true },
         localidade: { value: '', disabled: true },
         uf: { value: '', disabled: true },
-        cep: ['', Validators.required],
+        cep: [''],
       }),
       condominio: [null],
       quartos: [null],
@@ -31,8 +31,6 @@ export class CadastroImoveisFormService {
       aluguel: [false],
       dataAnuncio: [null],
       proprietarioId: [null],
-    });
-
-    this.formulario.markAllAsTouched();
-  }
+    });    
+  }  
 }

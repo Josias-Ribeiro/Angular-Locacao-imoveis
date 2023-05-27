@@ -29,7 +29,8 @@ export class CadastroImoveisHttpService {
   }
 
   editarImovel(imovel: CadastroImovelModel): Observable<any> {
-    return this._http.put('http://localhost:5875/imovel', imovel);
+    const url = `${this._rota}/${imovel.id}`;
+    return this._http.put(url, imovel);
   }
 
   salvarImovel(imovel: CadastroImovelModel): Observable<any> {

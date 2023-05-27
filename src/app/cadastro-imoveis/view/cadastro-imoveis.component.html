@@ -1,23 +1,29 @@
 <div>
   <form [formGroup]="formulario" (ngSubmit)="salvar()" class="form">
+    
     <div class="container-salvar">
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="formulario.invalid"
-      >
-        Salvar
-      </button>
-      <button mat-raised-button color="primary" (click)="listar()">
+      <button mat-raised-button color="primary" (click)="listar()" *ngIf="status === 'Nova Pesquisa'">
         Listar
       </button>
-      <button mat-raised-button color="primary" (click)="editar()">
+      <button mat-raised-button color="primary" (click)="criar()" *ngIf="status === 'Nova Pesquisa'">
+        Criar
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="formulario.invalid" *ngIf="status === 'Inserindo' || status === 'Editando'">
+        Salvar
+      </button>
+      <button mat-raised-button color="accent" (click)="editar()" *ngIf="formulario.get('id')?.value && status === 'Dados carregados'">
         Editar
       </button>
-      <button mat-raised-button color="primary" (click)="excluir()">
+      <button mat-raised-button color="warn" (click)="excluir()" *ngIf="formulario.get('id')?.value && status === 'Dados carregados'">
         Excluir
       </button>
+      <button mat-raised-button (click)="cancelar()" >
+        Cancelar
+      </button>
+      
+      
+      
+      
     </div>
     <mat-card>
       <mat-card-header>
@@ -81,7 +87,7 @@
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>CEP</mat-label>
                 <input matInput formControlName="cep" required />
-                <button matSuffix mat-icon-button (click)="pesquisarCEP()">
+                <button *ngIf="status === 'Inserindo' || status === 'Editando' " matSuffix mat-icon-button (click)="pesquisarCEP()">
                   <mat-icon matSuffix >search</mat-icon>
                 </button>
                 

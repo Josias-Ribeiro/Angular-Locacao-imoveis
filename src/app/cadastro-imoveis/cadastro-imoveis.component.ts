@@ -6,6 +6,7 @@ import { CadastroImoveisHttpService } from './services/cadastro-imoveis-http.ser
 import { CadastroImovelModel } from './model/cadastro-imovel.model';
 import { CadastroPessoaHttpService } from '../cadastro-pessoa/services/cadastro-pessoa-http.service';
 import { Pessoa } from '../cadastro-pessoa/model/pessoa.model';
+import { Status } from '../shared/constants/status';
 
 @Component({
   selector: 'app-cadastro-imoveis',
@@ -13,9 +14,10 @@ import { Pessoa } from '../cadastro-pessoa/model/pessoa.model';
   styleUrls: ['./view/cadastro-imoveis.component.scss'],
 })
 export class CadastroImoveisComponent implements OnInit {
+  status: string;
   formulario: FormGroup;
   tipos: string[] = ['Apartamento', 'Casa'];
-  arrayPessoas : Pessoa[];
+  arrayPessoas: Pessoa[];
 
   constructor(
     private _formService: CadastroImoveisFormService,
@@ -27,7 +29,11 @@ export class CadastroImoveisComponent implements OnInit {
     this._formService.construirFormulario();
     this.formulario = this._formService.formulario;
     this._carregarDadosPessoas();
+    this.status = Status.NovaPesquisa;
+
+    console.log(this.status)
   }
+
   private _carregarDadosPessoas() {
     this._httpPessoaService.carregarPessoas().subscribe((res) => {
       this.arrayPessoas = res;
@@ -50,13 +56,32 @@ export class CadastroImoveisComponent implements OnInit {
     this.formulario.get('endereco')?.setValue(endereco);
   }
 
+  cancelar() {
+    this.status = Status.NovaPesquisa;
+    this.formulario.enable();
+    this.formulario.reset();
+  }
+
+  criar(): void {
+    this.status = Status.Inserindo;
+    this.formulario.enable();
+    this.formulario.reset();
+  }
+
   listar(): void {
     const dados = +this.formulario.get('id')?.value;
 
+    if (!dados) {
+      alert('Deve ser informado um ID');
+      return;
+    }
+
+    this.status = Status.DadosCarregados;
+
+    this.formulario.disable();
+
     this._httpService.listarImovel(dados).subscribe((res) => {
       this.formulario.patchValue(res);
-
-      console.log(res);
 
       const endereco = res.endereco[0];
       this.endereco.get('logradouro')?.setValue(endereco.rua);
@@ -65,10 +90,15 @@ export class CadastroImoveisComponent implements OnInit {
       this.endereco.get('localidade')?.setValue(endereco.cidade);
       this.endereco.get('uf')?.setValue(endereco.uf);
       this.endereco.get('numero')?.setValue(endereco.numero);
+
+      this.endereco.disable();
     });
   }
 
-  editar() {}
+  editar() {
+    this.status = Status.Editando;
+    this.formulario.enable();
+  }
 
   excluir() {}
 
@@ -76,6 +106,7 @@ export class CadastroImoveisComponent implements OnInit {
     const dados = this.formulario.getRawValue();
 
     // this._httpService.salvarImovel(dados).subscribe((res) => console.log(res))
+
   }
 
   pesquisarCEP(): void {

@@ -187,6 +187,23 @@
             <mat-label>Proprietário ID</mat-label>
             <input matInput formControlName="proprietarioId" type="number" />
           </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Proprietario</mat-label>
+            <mat-select formControlName="proprietarioId" >
+              <mat-option *ngFor="let proprietario of arrayPessoas" [value]="proprietario.id">
+                {{proprietario.nome }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                formulario.get('proprietarioId')?.invalid &&
+                formulario.get('proprietarioId')?.touched
+              "
+            >
+              Selecione um proprietário.
+            </mat-error>
+          </mat-form-field>
         </div>
       </mat-card-content>
     </mat-card>

@@ -7,8 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialCoreModule } from '../shared/modulos/material-core.module';
 import { CadastroImoveisFormService } from './services/cadastro-imoveis-form.service';
-import { InputCepModule } from '../shared/components/input-cep/input-cep.module';
 import { CadastroImoveisHttpService } from './services/cadastro-imoveis-http.service';
+import { CadastroPessoaHttpService } from '../cadastro-pessoa/services/cadastro-pessoa-http.service';
 
 
 
@@ -21,10 +21,9 @@ import { CadastroImoveisHttpService } from './services/cadastro-imoveis-http.ser
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MaterialCoreModule,
-    InputCepModule,
+    MaterialCoreModule,    
     CadastroImoveisRoutingModule,
     
-  ],providers: [CadastroImoveisFormService, CadastroImoveisHttpService]
+  ],providers: [CadastroImoveisFormService, CadastroImoveisHttpService, CadastroPessoaHttpService]
 })
 export class CadastroImoveisModule { }

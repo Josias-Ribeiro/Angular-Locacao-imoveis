@@ -4,48 +4,60 @@ import { CadastroImoveisFormService } from './services/cadastro-imoveis-form.ser
 import { CurrencyPipe } from '@angular/common';
 import { CadastroImoveisHttpService } from './services/cadastro-imoveis-http.service';
 import { CadastroImovelModel } from './model/cadastro-imovel.model';
+import { CadastroPessoaHttpService } from '../cadastro-pessoa/services/cadastro-pessoa-http.service';
+import { Pessoa } from '../cadastro-pessoa/model/pessoa.model';
 
 @Component({
   selector: 'app-cadastro-imoveis',
   templateUrl: './view/cadastro-imoveis.component.html',
-  styleUrls: ['./view/cadastro-imoveis.component.scss'],  
+  styleUrls: ['./view/cadastro-imoveis.component.scss'],
 })
 export class CadastroImoveisComponent implements OnInit {
-  
   formulario: FormGroup;
   tipos: string[] = ['Apartamento', 'Casa'];
+  arrayPessoas : Pessoa[];
 
-  constructor(private _formService: CadastroImoveisFormService, private _httpService: CadastroImoveisHttpService) {}
+  constructor(
+    private _formService: CadastroImoveisFormService,
+    private _httpService: CadastroImoveisHttpService,
+    private _httpPessoaService: CadastroPessoaHttpService
+  ) {}
 
   ngOnInit(): void {
-    this._formService.construirFormulario()
-    this.formulario = this._formService.formulario
+    this._formService.construirFormulario();
+    this.formulario = this._formService.formulario;
+    this._carregarDadosPessoas();
+  }
+  private _carregarDadosPessoas() {
+    this._httpPessoaService.carregarPessoas().subscribe((res) => {
+      this.arrayPessoas = res;
+    });
   }
 
   get cepValido(): boolean {
-    return this.endereco.get('cep')?.value.length === 8
+    return this.endereco.get('cep')?.value.length === 8;
   }
 
   get entidade(): FormGroup {
-    return this.formulario
+    return this.formulario;
   }
 
-  get endereco(): FormGroup{
-    return this.formulario.get('endereco') as FormGroup
+  get endereco(): FormGroup {
+    return this.formulario.get('endereco') as FormGroup;
   }
 
   receberEndereco(endereco: any) {
-    this.formulario.get('endereco')?.setValue(endereco)
+    this.formulario.get('endereco')?.setValue(endereco);
   }
 
   listar(): void {
     const dados = +this.formulario.get('id')?.value;
-  
+
     this._httpService.listarImovel(dados).subscribe((res) => {
       this.formulario.patchValue(res);
 
-      console.log(res)
-  
+      console.log(res);
+
       const endereco = res.endereco[0];
       this.endereco.get('logradouro')?.setValue(endereco.rua);
       this.endereco.get('cep')?.setValue(endereco.cep);
@@ -55,31 +67,35 @@ export class CadastroImoveisComponent implements OnInit {
       this.endereco.get('numero')?.setValue(endereco.numero);
     });
   }
-  
 
-  editar(){}
+  editar() {}
 
-  excluir(){}
+  excluir() {}
 
-  salvar(): void {    
-    const dados = this.formulario.getRawValue()      
+  salvar(): void {
+    const dados = this.formulario.getRawValue();
 
     // this._httpService.salvarImovel(dados).subscribe((res) => console.log(res))
   }
 
-  pesquisarCEP():void {
-    if (!this.cepValido) return
+  pesquisarCEP(): void {
+    if (!this.cepValido) return;
 
-    const dados = this.endereco.get('cep')?.value
+    const dados = this.endereco.get('cep')?.value;
 
-    this._httpService.carregarEndereco(dados)
-    
-    .subscribe((res) => {
-      this.endereco.get('logradouro')?.setValue(res.logradouro);      
-      this.endereco.get('bairro')?.setValue(res.bairro);
-      this.endereco.get('localidade')?.setValue(res.localidade);
-      this.endereco.get('uf')?.setValue(res.uf);    
-    },
-    () => {alert('CEP não encontrado!')})
+    this._httpService
+      .carregarEndereco(dados)
+
+      .subscribe(
+        (res) => {
+          this.endereco.get('logradouro')?.setValue(res.logradouro);
+          this.endereco.get('bairro')?.setValue(res.bairro);
+          this.endereco.get('localidade')?.setValue(res.localidade);
+          this.endereco.get('uf')?.setValue(res.uf);
+        },
+        () => {
+          alert('CEP não encontrado!');
+        }
+      );
   }
 }

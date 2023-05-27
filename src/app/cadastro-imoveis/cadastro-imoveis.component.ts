@@ -7,6 +7,7 @@ import { CadastroImovelModel } from './model/cadastro-imovel.model';
 import { CadastroPessoaHttpService } from '../cadastro-pessoa/services/cadastro-pessoa-http.service';
 import { Pessoa } from '../cadastro-pessoa/model/pessoa.model';
 import { Status } from '../shared/constants/status';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-cadastro-imoveis',
@@ -95,17 +96,31 @@ export class CadastroImoveisComponent implements OnInit {
     });
   }
 
-  editar() {
+  editar(): void {
     this.status = Status.Editando;
     this.formulario.enable();
   }
 
-  excluir() {}
+  excluir(): void {
+    const dados = +this.formulario.get('id')?.value;
+    this._httpService.deletarImovel(dados)
+    .pipe(finalize(() => { 
+      this.formulario.reset()
+      this.status = Status.NovaPesquisa
+      alert('Imóvel removido com sucesso!')
+    }))
+    .subscribe(() => {})
+  }
 
   salvar(): void {
     const dados = this.formulario.getRawValue();
 
-    // this._httpService.salvarImovel(dados).subscribe((res) => console.log(res))
+    this._httpService.salvarImovel(dados)
+    .pipe(finalize(() => {
+      alert('Imóvel salvo com sucesso!')
+      this.formulario.disable()
+    }))
+    .subscribe(() => {})
 
   }
 

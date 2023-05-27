@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CadastroImoveisHttpService } from '../cadastro-imoveis/services/cadastro-imoveis-http.service';
 import { CadastroImovelModel } from '../cadastro-imoveis/model/cadastro-imovel.model';
+import { CadastroImoveisHttpService } from '../cadastro-imoveis/services/cadastro-imoveis-http.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './view/home.component.html',
-  styleUrls: ['./view/home.component.scss']
+  styleUrls: ['./view/home.component.scss'],  
 })
 export class HomeComponent implements OnInit {
   imoveis: CadastroImovelModel[]
@@ -23,16 +23,19 @@ export class HomeComponent implements OnInit {
   get dataUltimoImovel() {
     let dataMaisRecente = null;
   
-    for (let i = 0; i < this.imoveis.length; i++) {
-      const dataAnuncio = new Date(this.imoveis[i].dataAnuncio);
-      
-      if (!dataMaisRecente || dataAnuncio > dataMaisRecente) {
-        dataMaisRecente = dataAnuncio;
+    if (this.imoveis && this.imoveis.length > 0) {
+      for (let i = 0; i < this.imoveis.length; i++) {
+        const dataAnuncio = new Date(this.imoveis[i].dataAnuncio); 
+        
+        if (!dataMaisRecente || dataAnuncio > dataMaisRecente) {
+          dataMaisRecente = dataAnuncio;
+        }
       }
     }
-
-    return dataMaisRecente
+  
+    return dataMaisRecente;
   }
+  
 
   ngOnInit(): void {
     this._carregarImoveis()

@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroPessoaFormService } from './services/cadastro-pessoa-form.service';
 import {
   HTTP_INTERCEPTORS,
+  HttpClient,
   HttpClientModule,
   HttpClientXsrfModule,
 } from '@angular/common/http';

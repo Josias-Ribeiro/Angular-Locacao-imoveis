@@ -12,6 +12,7 @@ import {
   HttpClientXsrfModule,
 } from '@angular/common/http';
 import { CadastroPessoaHttpService } from './services/cadastro-pessoa-http.service';
+import { CadastroImoveisHttpService } from '../cadastro-imoveis/services/cadastro-imoveis-http.service';
 
 @NgModule({
   declarations: [CadastroPessoaComponent],
@@ -24,6 +25,6 @@ import { CadastroPessoaHttpService } from './services/cadastro-pessoa-http.servi
     CadastroPessoaRoutingModule,
   ],
 
-  providers: [CadastroPessoaFormService, CadastroPessoaHttpService],
+  providers: [CadastroPessoaFormService, CadastroPessoaHttpService, CadastroImoveisHttpService],
 })
 export class CadastroPessoaModule {}

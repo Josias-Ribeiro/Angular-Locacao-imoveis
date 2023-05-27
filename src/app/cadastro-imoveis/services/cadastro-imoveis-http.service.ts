@@ -12,6 +12,10 @@ export class CadastroImoveisHttpService {
 
   constructor(private _http: HttpClient) {}
 
+  carregarImoveis(): Observable<any> {
+    return this._http.get('http://localhost:5875/imovel')
+  }
+
   carregarEndereco(cep: number): Observable<any>{
     return this._http.get(`${this._rotaCEP}/${cep}/json`)
   }

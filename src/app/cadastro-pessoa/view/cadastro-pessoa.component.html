@@ -11,9 +11,21 @@
 
       </mat-form-field>
   
-      <mat-form-field appearance="outline">
-        <input matInput placeholder="ID do Imóvel" formControlName="imovelId">
-        <mat-error *ngIf="formService.form.get('imovelId')?.hasError('imovelId')">O campo imóvelId é obrigatório</mat-error>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Imóvel</mat-label>
+        <mat-select formControlName="imovelId" >
+          <mat-option *ngFor="let imovel of arrayImoveis" [value]="imovel.id">
+            {{imovel.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            formulario.get('proprietarioId')?.invalid &&
+            formulario.get('proprietarioId')?.touched
+          "
+        >
+          Selecione um proprietário.
+        </mat-error>
       </mat-form-field>
 
       <br>

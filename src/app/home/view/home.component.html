@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="cards-container">
+      <div class="card">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Cadastros</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Você possui {{ imoveis?.length }} imóveis cadastrados</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <!-- Botões do Card 1 -->
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div class="card">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Anúncios</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>O último imóvel foi anunciado em {{ dataUltimoImovel | date:'dd/MM/yyyy' }}  </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <!-- Botões do Card 1 -->
+          </mat-card-actions>
+        </mat-card>
+      </div>
+  
+      <div class="card">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Patrimônio</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Um total de R$ {{ patrimonio | currency:'BRL':'symbol':'1.2-2' }} cadastrados em imóveis.</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <!-- Botões do Card 2 -->
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  
+    <div class="image-container">
+      <img src="assets/ImovelFacil.png" alt="Imagem" class="image" >
+      <div class="buttons-container">
+        <button mat-fab routerLink="/cadastro-pessoa" matTooltip="Cadastrar proprietário" color="primary">
+          <mat-icon>person</mat-icon>
+        </button>
+        <button mat-fab routerLink="/cadastro-imoveis"   matTooltip="Cadastrar imóvel" color="primary">
+          <mat-icon>home</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  
